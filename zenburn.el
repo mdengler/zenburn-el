@@ -1033,9 +1033,13 @@ static char *gnus-pointer[] = {
        diff-header-face
        diff-hunk-header-face
        diff-index-face
-       diff-removed-face
        diff-refine-change-face
+       diff-removed-face
+       elscreen-tab-background-face
+       elscreen-tab-control-face
        elscreen-tab-current-screen-face
+       elscreen-tab-current-screen-face
+       elscreen-tab-other-screen-face
        elscreen-tab-other-screen-face
        emms-pbi-current-face
        emms-pbi-mark-marked-face
@@ -1078,6 +1082,8 @@ static char *gnus-pointer[] = {
        fancy-widget-inactive-face
        fancy-widget-single-line-field-face
        flyspell-duplicate-face
+       flyspell-duplicate-face
+       flyspell-incorrect-face
        flyspell-incorrect-face
        font-latex-bold-face
        font-latex-sedate-face
@@ -1143,6 +1149,7 @@ static char *gnus-pointer[] = {
        ibuffer-help-buffer-face
        ibuffer-marked-face
        ibuffer-special-buffer-face
+       identica-uri-face
        ido-first-match-face
        ido-only-match-face
        ido-subdir-face
@@ -1284,6 +1291,9 @@ static char *gnus-pointer[] = {
        tuareg-font-lock-interactive-error-face
        tuareg-font-lock-interactive-output-face
        tuareg-font-lock-operator-face
+       twitter-header-face
+       twitter-time-stamp-face
+       twitter-user-name-face
        w3m-anchor-face
        w3m-arrived-anchor-face
        w3m-form-button-face
@@ -1304,38 +1314,28 @@ static char *gnus-pointer[] = {
        widget-field-face
        widget-inactive-face
        widget-single-line-field-face
-       flyspell-duplicate-face
-       flyspell-incorrect-face
-       wl-highlight-message-headers-face
-       wl-highlight-message-header-contents-face
-       wl-highlight-message-important-header-contents-face
-       wl-highlight-message-important-header-contents2-face
-       wl-highlight-message-unimportant-header-contents-face
+       wl-highlight-folder-few-face
+       wl-highlight-folder-many-face
+       wl-highlight-folder-path-face
+       wl-highlight-folder-unread-face
+       wl-highlight-folder-zero-face
        wl-highlight-message-citation-header-face
        wl-highlight-message-cited-text-1-face
        wl-highlight-message-cited-text-2-face
        wl-highlight-message-cited-text-3-face
        wl-highlight-message-cited-text-4-face
+       wl-highlight-message-header-contents-face
+       wl-highlight-message-headers-face
+       wl-highlight-message-important-header-contents-face
+       wl-highlight-message-important-header-contents2-face
        wl-highlight-message-signature-face
+       wl-highlight-message-unimportant-header-contents-face
        wl-highlight-summary-answered-face
-       wl-highlight-summary-new-face
        wl-highlight-summary-displaying-face
-       wl-highlight-thread-indent-face
-       wl-highlight-summary-thread-top-face
+       wl-highlight-summary-new-face
        wl-highlight-summary-normal-face
-       wl-highlight-folder-zero-face
-       wl-highlight-folder-few-face
-       wl-highlight-folder-many-face
-       wl-highlight-folder-unread-face
-       wl-highlight-folder-path-face
-       elscreen-tab-background-face
-       elscreen-tab-control-face
-       elscreen-tab-current-screen-face
-       elscreen-tab-other-screen-face
-       identica-uri-face
-       twitter-time-stamp-face
-       twitter-user-name-face
-       twitter-header-face
+       wl-highlight-summary-thread-top-face
+       wl-highlight-thread-indent-face
        ))))
 
 (defalias 'zenburn #'color-theme-zenburn)
