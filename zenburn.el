@@ -67,9 +67,6 @@
                  ;; dirty fix
                  "white")))
 
-(defvar font-lock-pseudo-keyword-face 'font-lock-pseudo-keyword-face)
-(defvar font-lock-operator-face 'font-lock-operator-face)
-
 (setq-default erc-mode-line-format
               (concat (propertize "%S" 'face
                                   (list :weight 'bold
@@ -1227,7 +1224,7 @@ static char *gnus-pointer[] = {
        wl-highlight-summary-normal-face
        wl-highlight-summary-thread-top-face
        wl-highlight-thread-indent-face
-       ))))
+       )))))
 
 (defalias 'zenburn #'color-theme-zenburn)
 
