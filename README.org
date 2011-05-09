@@ -3,3 +3,7 @@ zenburn.el --- just some alien fruit salad to keep you in the zone
 Get the [[http://www.emacswiki.org/emacs/ColorTheme][color-theme]] library, put zenburn.el in your [[http://www.emacswiki.org/emacs/LoadPath#toc2][emacs load-path]] and then:
 
 (require 'zenburn)
+
+It looks like this:
+
+[[http://2.bp.blogspot.com/_kGFGcbwevHE/S7hudg01isI/AAAAAAAAAfw/-jq5xEoP9LA/s1600/zenburn.png]]
