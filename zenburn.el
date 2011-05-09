@@ -426,7 +426,7 @@
        ((t (:inherit zenburn-primary-1))))
      `(elscreen-tab-other-screen
        ((t (:foreground ,zenburn-yellow :background ,zenburn-green))))
-     
+
      '(flyspell-duplicate ((t (:inherit zenburn-primary-1))))
      '(flyspell-incorrect ((t (:inherit zenburn-primary-2))))
 
@@ -472,7 +472,7 @@
      `(gnus-group-news-1-empty ((t (:foreground ,zenburn-yellow))))
      `(gnus-group-news-2-empty ((t (:foreground ,zenburn-green+3))))
      `(gnus-group-news-3-empty ((t (:foreground ,zenburn-green+1))))
-     `(gnus-group-news-4-empty ((t (:foreground ,zenburn-blue-2)))) 
+     `(gnus-group-news-4-empty ((t (:foreground ,zenburn-blue-2))))
      `(gnus-group-news-5-empty ((t (:foreground ,zenburn-blue-3))))
      `(gnus-group-news-6-empty ((t (:inherit zenburn-lowlight-1))))
      `(gnus-group-news-low-empty ((t (:inherit zenburn-lowlight-1))))
