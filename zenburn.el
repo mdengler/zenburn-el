@@ -1,6 +1,7 @@
 ;;; zenburn.el --- just some alien fruit salad to keep you in the zone
 ;; Copyright (C) 2003, 2004, 2005, 2006, 2010, 2011  Daniel Brockman
 ;; Copyright (C) 2009  Adrian C., Bastien Guerry
+;; Copyright (C) 2010 Bozhidar Batsov
 
 ;; Author: Daniel Brockman <daniel@brockman.se>
 ;; URL: http://github.com/dbrock/zenburn-el
@@ -22,12 +23,11 @@
 ;; Software Foundation, 51 Franklin Street, Fifth Floor,
 ;; Boston, MA 02110-1301, USA.
 
-;;; Code:
-
 (require 'color-theme)
 
 (defvar zenburn-fg "#dcdccc")
-(defvar zenburn-bg-1 "#282828")
+
+(defvar zenburn-bg-1 "#2b2b2b")
 (defvar zenburn-bg "#3f3f3f")
 (defvar zenburn-bg+1 "#4f4f4f")
 (defvar zenburn-bg+2 "#5f5f5f")
@@ -55,10 +55,62 @@
 (defvar zenburn-blue-2 "#6ca0a3")
 (defvar zenburn-blue-3 "#5c888b")
 (defvar zenburn-blue-4 "#4c7073")
+(defvar zenburn-blue-5 "#366060")
 (defvar zenburn-magenta "#dc8cc3")
+
+(eval-after-load 'term
+  '(setq ansi-term-color-vector
+         (vector 'unspecified zenburn-bg
+                 zenburn-red zenburn-green
+                 zenburn-yellow zenburn-blue+1
+                 zenburn-magenta zenburn-cyan
+                 ;; dirty fix
+                 "white")))
 
 (defvar font-lock-pseudo-keyword-face 'font-lock-pseudo-keyword-face)
 (defvar font-lock-operator-face 'font-lock-operator-face)
+
+(setq-default erc-mode-line-format
+              (concat (propertize "%S" 'face
+                                  (list :weight 'bold
+                                        :foreground zenburn-yellow))
+                      " %a"))
+
+
+(setq gnus-logo-colors `(,zenburn-bg+2 ,zenburn-bg+1)
+      gnus-mode-line-image-cache
+      '(image :type xpm :ascent center :data "/* XPM */
+static char *gnus-pointer[] = {
+/* width height num_colors chars_per_pixel */
+\"    18    11        2            1\",
+/* colors */
+\". c #dcdccc\",
+\"# c None s None\",
+/* pixels */
+\"######..##..######\",
+\"#####........#####\",
+\"#.##.##..##...####\",
+\"#...####.###...##.\",
+\"#..###.######.....\",
+\"#####.########...#\",
+\"###########.######\",
+\"####.###.#..######\",
+\"######..###.######\",
+\"###....####.######\",
+\"###..######.######\"};"))
+
+(defun zenburn-make-face-alias-clauses (alias-symbols)
+  (let (clauses)
+    (dolist (alias-symbol alias-symbols clauses)
+      (let ((alias-name (symbol-name alias-symbol)))
+        (if (not (string-match "-face" alias-name))
+            (error "Invalid face alias: %s" alias-name)
+          (let ((target-name (replace-regexp-in-string
+                              ".*\\(-face\\)" ""
+                              alias-name nil nil 1)))
+            (push `(,(intern alias-name)
+                    ((t (:inherit ,(intern target-name)))))
+                  clauses)))))))
 
 ;;;###autoload
 (defun color-theme-zenburn ()
@@ -106,8 +158,8 @@
 
           '(zenburn-highlight-damp
             ((t (:foreground "#88b090" :background "#2e3330"))))
-          `(zenburn-highlight-alerting
-            ((t (:foreground ,zenburn-fg :background "#332323"))))
+          '(zenburn-highlight-alerting
+            ((t (:foreground "#e37170" :background "#332323"))))
           '(zenburn-highlight-subtle
             ((t (:background "#464646"))))
 
@@ -142,6 +194,8 @@
             ((t (:inherit zenburn-primary-4))))
           '(font-lock-doc
             ((t (:inherit zenburn-green+1))))
+          `(font-lock-doc-string
+            ((t (:foreground ,zenburn-blue+1))))
           `(font-lock-function-name
             ((t (:foreground ,zenburn-yellow))))
           '(font-lock-keyword
@@ -158,6 +212,15 @@
             ((t (:foreground ,zenburn-yellow))))
           '(font-lock-warning
             ((t (:inherit zenburn-highlight-alerting))))
+
+          '(sh-heredoc ((t (:inherit font-lock-string))))
+
+          '(fixme-face ((t (:foreground "#dcdccc" :background "#3f3f3f"
+                                        :weight bold :box nil)))) ; Colours taken from vim ":hl Todo"
+
+          '(semantic-tag-boundary-face ((t (:overline "#5f5f5f")))) ; zenburn-bg+2
+          '(semantic-decoration-on-unparsed-includes
+            ((t (:foreground "#88b090" :background "#2e3330")))) ; zenburn-highlight-damp
 
           '(font-lock-pseudo-keyword
             ((t (:inherit zenburn-primary-2))))
@@ -255,18 +318,19 @@
           `(minibuffer-prompt ((t (:foreground ,zenburn-yellow))))
           `(Buffer-menu-buffer ((t (:inherit zenburn-primary-1))))
 
-          '(region ((t (:foreground "#71d3b4" :background "#233323"))))
-          `(secondary-selection
-            ((t (:foreground ,zenburn-fg :background "#506070"))))
+          `(region ((t (:foreground nil :background ,zenburn-bg+2))))
+          `(secondary-selection ((t (:foreground nil :background "#506070"))))
 
           '(trailing-whitespace ((t (:inherit font-lock-warning))))
-          '(highlight ((t (:underline t))))
+          '(highlight ((t (:background "#506070"))))
           '(paren ((t (:inherit zenburn-lowlight-1))))
           '(show-paren-mismatch ((t (:inherit font-lock-warning))))
           '(show-paren-match ((t (:inherit font-lock-keyword))))
           '(match ((t (:weight bold))))
 
-          `(cursor ((t (:background ,zenburn-fg :foreground ,zenburn-bg))))
+          `(button ((t (:foreground ,zenburn-yellow :underline t))))
+
+          `(cursor ((t (:background "#aaaaaa" :foreground nil))))
           '(hover-highlight ((t (:underline t :foreground "#f8f893"))))
           '(menu ((t nil)))
           '(mouse ((t (:inherit zenburn-foreground))))
@@ -277,13 +341,19 @@
           '(ido-only-match ((t (:inherit zenburn-primary-2))))
           `(ido-subdir ((t (:foreground ,zenburn-yellow))))
 
-          `(isearch ((t (:foreground ,zenburn-fg :background "#506070"))))
-          `(isearch-lazy-highlight
-            ((t (:foreground ,zenburn-fg :background "#1e2320" :weight normal))))
+          '(icompletep-choices ((t (:foreground "#dcdccc")))) ; zenburn-fg
+          '(icompletep-determined ((t (:foreground "#8FB28F")))) ; zenburn-green+1
+          '(icompletep-nb-candidates ((t (:foreground "#AFD8AF")))) ; zenburn-green+3
+          '(icompletep-keys ((t (:foreground "#CC9393")))) ; zenburn-red
+
+          `(isearch ((t (:background "#668b8b" :foreground ,zenburn-fg :underline nil))))
+          `(lazy-highlight ((t (:background "#506070" :foreground ,zenburn-fg :underline nil))))
 
           '(mtorus-highlight ((t (:inherit zenburn-highlight-bluish))))
           '(mtorus-notify-highlight ((t (:inherit zenburn-primary-1))))
 
+          '(minimap-active-region-background ((t (:foreground nil
+                                                              :background "#233323"))))
           '(which-func ((t (:inherit mode-line))))
 
           '(apt-utils-normal-package
@@ -359,6 +429,8 @@
           '(custom-variable-tag
             ((t (:inherit zenburn-primary-2))))
 
+          `(mode-line-buffer-id ((t (:foreground ,zenburn-yellow :weight bold))))
+
           '(dictionary-button ((t (:inherit fancy-widget-button))))
           '(dictionary-reference ((t (:inherit zenburn-primary-1))))
           '(dictionary-word-entry ((t (:inherit font-lock-keyword))))
@@ -372,6 +444,26 @@
           '(diff-removed ((t (:inherit zenburn-blue))))
           '(diff-context ((t (:inherit font-lock-comment))))
           '(diff-refine-change ((t (:inherit zenburn-background-2))))
+
+          `(ediff-current-diff-A ((t (:background "#495766" :foreground ,zenburn-fg))))
+          `(ediff-current-diff-Ancestor ((t (:background "#495766" :foreground ,zenburn-fg))))
+          `(ediff-current-diff-B ((t (:background "#495766" :foreground ,zenburn-fg))))
+          `(ediff-current-diff-C ((t (:background "#495766" :foreground ,zenburn-fg))))
+
+          `(ediff-even-diff-A ((t (:background ,zenburn-bg+1))))
+          `(ediff-even-diff-Ancestor ((t (:background ,zenburn-bg+1))))
+          `(ediff-even-diff-B ((t (:background ,zenburn-bg+1))))
+          `(ediff-even-diff-C ((t (:background ,zenburn-bg+1))))
+
+          `(ediff-odd-diff-A ((t (:background ,zenburn-bg+1))))
+          `(ediff-odd-diff-Ancestor ((t (:background ,zenburn-bg+1))))
+          `(ediff-odd-diff-B ((t (:background ,zenburn-bg+1))))
+          `(ediff-odd-diff-C ((t (:background ,zenburn-bg+1))))
+
+          `(ediff-fine-diff-A ((t (:background "#668b8b" :foreground ,zenburn-fg))))
+          `(ediff-fine-diff-Ancestor ((t (:background "#668b8b" :foreground ,zenburn-fg))))
+          `(ediff-fine-diff-B ((t (:background "#668b8b" :foreground ,zenburn-fg))))
+          `(ediff-fine-diff-C ((t (:background "#668b8b" :foreground ,zenburn-fg))))
 
           `(emms-pbi-song ((t (:foreground ,zenburn-yellow))))
           '(emms-pbi-current ((t (:inherit zenburn-primary-1))))
@@ -404,8 +496,7 @@
 
           '(rcirc-my-nick ((t (:inherit zenburn-primary-1))))
           '(rcirc-other-nick ((t (:inherit bold))))
-          '(rcirc-bright-nick
-            ((t (:foreground "white" :inherit rcirc-other-nick))))
+          '(rcirc-bright-nick ((t (:foreground "white" :inherit rcirc-other-nick))))
           '(rcirc-dim-nick ((t (:inherit font-lock-comment))))
           '(rcirc-nick-in-message ((t (:inherit bold))))
           '(rcirc-server ((t (:inherit font-lock-comment))))
@@ -430,9 +521,6 @@
             ((t (:inherit zenburn-primary-1))))
           `(elscreen-tab-other-screen
             ((t (:foreground ,zenburn-yellow :background ,zenburn-green))))
-
-          '(flyspell-duplicate ((t (:inherit zenburn-primary-1))))
-          '(flyspell-incorrect ((t (:inherit zenburn-primary-2))))
 
           '(highlight-current-line ((t (:inherit zenburn-highlight-subtle))))
 
@@ -542,6 +630,7 @@
 
           '(help-argument-name ((t (:weight bold))))
 
+          ;; See also the variable definitions at the top of this file
           '(imaxima-latex-error ((t (:inherit font-lock-warning))))
 
           `(info-xref ((t (:foreground ,zenburn-yellow :weight bold))))
@@ -707,6 +796,10 @@
 
           '(setnu-line-number ((t (:inherit zenburn-lowlight-2))))
 
+          `(smerge-mine ((t (:inherit font-lock-default-face))))
+          `(smerge-other ((t (:inherit font-lock-default-face))))
+          `(smerge-refined-change ((t (:background "#668b8b" :foreground ,zenburn-fg))))
+
           '(speedbar-button ((t (:inherit zenburn-primary-1))))
           '(speedbar-file ((t (:inherit zenburn-primary-2))))
           '(speedbar-directory ((t (:inherit zenburn-primary-5))))
@@ -793,7 +886,106 @@
           '(w3m-image
             ((t (:inherit zenburn-primary-4))))
           '(w3m-form
-            ((t (:inherit widget-field)))))
+            ((t (:inherit widget-field))))
+
+          `(hl-line ((t (:background ,zenburn-bg-1))))
+
+          '(magit-section-title ((t (:inherit zenburn-primary-1))))
+          '(magit-branch ((t (:inherit zenburn-primary-2))))
+
+          '(flyspell-duplicate ((t (:inherit zenburn-primary-1))))
+          '(flyspell-incorrect ((t (:inherit font-lock-warning))))
+
+          `(elscreen-tab-other-screen ((t ((:foreground ,zenburn-fg
+                                                        :background ,zenburn-green-1)))))
+          `(elscreen-tab-current-screen ((t (:foreground ,zenburn-blue+1
+                                                         :background "#1e2320"))))
+
+          '(wl-highlight-message-headers ((t (:inherit zenburn-red+1))))
+          '(wl-highlight-message-header-contents ((t (:inherit zenburn-green))))
+          '(wl-highlight-message-important-header-contents
+            ((t (:inherit zenburn-yellow))))
+          '(wl-highlight-message-important-header-contents2
+            ((t (:inherit zenburn-blue))))
+          '(wl-highlight-message-unimportant-header-contents
+            ((t (:inherit zenburn-term-dark-gray))))   ;; reuse term
+          '(wl-highlight-message-citation-header ((t (:inherit zenburn-red))))
+
+          '(wl-highlight-message-cited-text-1 ((t (:inherit zenburn-green))))
+          '(wl-highlight-message-cited-text-2 ((t (:inherit zenburn-blue))))
+          '(wl-highlight-message-cited-text-3 ((t (:foreground "#8f8f8f"))))
+          '(wl-highlight-message-cited-text-4 ((t (:inherit zenburn-green))))
+
+          '(wl-highlight-message-signature ((t (:inherit zenburn-yellow))))
+
+          '(wl-highlight-summary-answered ((t (:inherit zenburn-fg))))
+          '(wl-highlight-summary-new ((t (:foreground "#e89393"))))
+
+          `(wl-highlight-summary-displaying ((t (:underline t
+                                                            :foreground ,zenburn-yellow-2))))
+
+          '(wl-highlight-thread-indent ((t (:foreground "#ecbcec"))))
+          '(wl-highlight-summary-thread-top ((t (:foreground "#efdcbc"))))
+
+          '(wl-highlight-summary-normal ((t (:inherit zenburn-fg))))
+
+          '(wl-highlight-folder-zero ((t (:inherit zenburn-fg))))
+          '(wl-highlight-folder-few ((t (:inherit zenburn-red+1))))
+          '(wl-highlight-folder-many ((t (:inherit zenburn-red+1))))
+          '(wl-highlight-folder-unread ((t (:foreground "#e89393"))))
+
+          '(wl-highlight-folder-path ((t (:inherit zenburn-orange))))
+
+          `(twitter-time-stamp ((t (:foreground ,zenburn-orange :background "#1e2320"))))
+          `(twitter-user-name ((t (:foreground "#acbc90" :background "#1e2320"))))
+          `(twitter-header ((t (:foreground ,zenburn-orange :background "#1e2320"))))
+
+          '(rpm-spec-dir ((t (:inherit zenburn-green))))
+          '(rpm-spec-doc ((t (:inherit zenburn-green))))
+          '(rpm-spec-ghost ((t (:inherit zenburn-red))))
+          '(rpm-spec-macro ((t (:inherit zenburn-yellow))))
+          '(rpm-spec-obsolete-tag ((t (:inherit zenburn-red))))
+          '(rpm-spec-package ((t (:inherit zenburn-red))))
+          '(rpm-spec-section ((t (:inherit zenburn-yellow))))
+          '(rpm-spec-tag ((t (:inherit zenburn-blue))))
+          '(rpm-spec-var ((t (:inherit zenburn-red))))
+
+          '(mew-face-header-subject ((t (:inherit zenburn-orange))))
+          '(mew-face-header-from ((t (:inherit zenburn-yellow))))
+          '(mew-face-header-date ((t (:inherit zenburn-green))))
+          '(mew-face-header-to ((t (:inherit zenburn-red))))
+          '(mew-face-header-key ((t (:inherit zenburn-green))))
+          '(mew-face-header-private ((t (:inherit zenburn-green))))
+          '(mew-face-header-important ((t (:inherit zenburn-blue))))
+          '(mew-face-header-marginal ((t (:inherit zenburn-term-dark-gray))))
+          '(mew-face-header-warning ((t (:inherit zenburn-red))))
+          '(mew-face-header-xmew ((t (:inherit zenburn-green))))
+          '(mew-face-header-xmew-bad ((t (:inherit zenburn-red))))
+          '(mew-face-body-url ((t (:inherit zenburn-orange))))
+          '(mew-face-body-comment ((t (:inherit zenburn-term-dark-gray))))
+          '(mew-face-body-cite1 ((t (:inherit zenburn-green))))
+          '(mew-face-body-cite2 ((t (:inherit zenburn-blue))))
+          '(mew-face-body-cite3 ((t (:inherit zenburn-orange))))
+          '(mew-face-body-cite4 ((t (:inherit zenburn-yellow))))
+          '(mew-face-body-cite5 ((t (:inherit zenburn-red))))
+          '(mew-face-mark-review ((t (:inherit zenburn-blue))))
+          '(mew-face-mark-escape ((t (:inherit zenburn-green))))
+          '(mew-face-mark-delete ((t (:inherit zenburn-red))))
+          '(mew-face-mark-unlink ((t (:inherit zenburn-yellow))))
+          '(mew-face-mark-refile ((t (:inherit zenburn-green))))
+          '(mew-face-mark-unread ((t (:inherit zenburn-red-2))))
+          '(mew-face-eof-message ((t (:inherit zenburn-green))))
+          '(mew-face-eof-part ((t (:inherit zenburn-yellow))))
+
+          '(nav-face-heading ((t (:inherit zenburn-yellow))))
+          '(nav-face-button-num ((t (:inherit zenburn-cyan))))
+          '(nav-face-dir ((t (:inherit zenburn-green))))
+          '(nav-face-hdir ((t (:inherit zenburn-red))))
+          '(nav-face-file ((t (:inherit zenburn-fg))))
+          '(nav-face-hfile ((t (:inherit zenburn-red-4))))
+
+          '(svn-mark ((t (:inherit zenburn-blue))))
+          )
 
     ;; XXX: Updating this list is very tedious.
     ;;      Are these aliases still necessary?
@@ -896,6 +1088,7 @@
        font-lock-comment-face
        font-lock-constant-face
        font-lock-doc-face
+       font-lock-doc-string-face
        font-lock-function-name-face
        font-lock-keyword-face
        font-lock-negation-char-face
@@ -1046,6 +1239,15 @@
        plain-widget-field-face
        plain-widget-inactive-face
        plain-widget-single-line-field-face
+       rpm-spec-dir-face
+       rpm-spec-doc-face
+       rpm-spec-ghost-face
+       rpm-spec-macro-face
+       rpm-spec-obsolete-tag-face
+       rpm-spec-package-face
+       rpm-spec-section-face
+       rpm-spec-tag-face
+       rpm-spec-var-face
        setnu-line-number-face
        show-paren-match-face
        show-paren-mismatch-face
@@ -1074,6 +1276,7 @@
        sr-symlink-face
        sr-xml-face
        strokes-char-face
+       svn-mark-face
        todoo-item-assigned-header-face
        todoo-item-header-face
        todoo-sub-item-header-face
@@ -1101,53 +1304,48 @@
        widget-field-face
        widget-inactive-face
        widget-single-line-field-face
+       flyspell-duplicate-face
+       flyspell-incorrect-face
+       wl-highlight-message-headers-face
+       wl-highlight-message-header-contents-face
+       wl-highlight-message-important-header-contents-face
+       wl-highlight-message-important-header-contents2-face
+       wl-highlight-message-unimportant-header-contents-face
+       wl-highlight-message-citation-header-face
+       wl-highlight-message-cited-text-1-face
+       wl-highlight-message-cited-text-2-face
+       wl-highlight-message-cited-text-3-face
+       wl-highlight-message-cited-text-4-face
+       wl-highlight-message-signature-face
+       wl-highlight-summary-answered-face
+       wl-highlight-summary-new-face
+       wl-highlight-summary-displaying-face
+       wl-highlight-thread-indent-face
+       wl-highlight-summary-thread-top-face
+       wl-highlight-summary-normal-face
+       wl-highlight-folder-zero-face
+       wl-highlight-folder-few-face
+       wl-highlight-folder-many-face
+       wl-highlight-folder-unread-face
+       wl-highlight-folder-path-face
+       elscreen-tab-background-face
+       elscreen-tab-control-face
+       elscreen-tab-current-screen-face
+       elscreen-tab-other-screen-face
+       identica-uri-face
+       twitter-time-stamp-face
+       twitter-user-name-face
+       twitter-header-face
        ))))
-
-  (eval-after-load 'term
-    '(setq ansi-term-color-vector
-           (vector 'unspecified zenburn-bg
-                   zenburn-red zenburn-green
-                   zenburn-yellow zenburn-blue+1
-                   zenburn-magenta zenburn-cyan
-                   ;; XXX: Not sure why this is sometimes needed.
-                   "white")))
-
-  (setq gnus-logo-colors `(,zenburn-bg+2 ,zenburn-bg+1)
-        gnus-mode-line-image-cache
-        '(image :type xpm :ascent center :data "/* XPM */
-static char *gnus-pointer[] = {
-/* width height num_colors chars_per_pixel */
-\"    18    11        2            1\",
-/* colors */
-\". c #dcdccc\",
-\"# c None s None\",
-/* pixels */
-\"######..##..######\",
-\"#####........#####\",
-\"#.##.##..##...####\",
-\"#...####.###...##.\",
-\"#..###.######.....\",
-\"#####.########...#\",
-\"###########.######\",
-\"####.###.#..######\",
-\"######..###.######\",
-\"###....####.######\",
-\"###..######.######\"};")))
-
-(defun zenburn-make-face-alias-clauses (alias-symbols)
-  (let (clauses)
-    (dolist (alias-symbol alias-symbols clauses)
-      (let ((alias-name (symbol-name alias-symbol)))
-        (if (not (string-match "-face" alias-name))
-            (error "Invalid face alias: %s" alias-name)
-          (let ((target-name (replace-regexp-in-string
-                              ".*\\(-face\\)" ""
-                              alias-name nil nil 1)))
-            (push `(,(intern alias-name)
-                    ((t (:inherit ,(intern target-name)))))
-                  clauses)))))))
 
 (defalias 'zenburn #'color-theme-zenburn)
 
 (provide 'zenburn)
+
+;; Local Variables:
+;; time-stamp-format: "%:y-%02m-%02d %02H:%02M"
+;; time-stamp-start: "Updated: "
+;; time-stamp-end: "$"
+;; End:
+
 ;;; zenburn.el ends here.
