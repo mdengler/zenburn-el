@@ -156,6 +156,8 @@ static char *gnus-pointer[] = {
           '(underline ((t (:underline t))))
 
           ;; 3. zenburn-specific faces for later :inherit
+          `(zenburn-foreground ((t (:foreground ,zenburn-fg))))
+
           `(zenburn-background-1 ((t (:background ,zenburn-bg+1))))
           `(zenburn-background-2 ((t (:background ,zenburn-bg+2))))
 
@@ -175,6 +177,9 @@ static char *gnus-pointer[] = {
           `(zenburn-yellow ((t (:foreground ,zenburn-yellow))))
           `(zenburn-orange ((t (:foreground ,zenburn-orange))))
           `(zenburn-red ((t (:foreground ,zenburn-red))))
+          `(zenburn-red-1 ((t (:foreground ,zenburn-red-1))))
+          `(zenburn-red-2 ((t (:foreground ,zenburn-red-2))))
+          `(zenburn-red+1 ((t (:foreground ,zenburn-red+1))))
           `(zenburn-green-1 ((t (:foreground ,zenburn-green-1))))
           `(zenburn-green ((t (:foreground ,zenburn-green))))
           `(zenburn-green+1 ((t (:foreground ,zenburn-green+1))))
@@ -194,6 +199,7 @@ static char *gnus-pointer[] = {
           '(font-lock-comment ((t (:inherit zenburn-green))))
           '(font-lock-comment-delimiter ((t (:inherit zenburn-lowlight-2))))
           '(font-lock-constant ((t (:inherit zenburn-primary-4))))
+          '(font-lock-default ((t (:inherit default))))
           '(font-lock-doc ((t (:inherit zenburn-green+1))))
           `(font-lock-doc-string ((t (:foreground ,zenburn-blue+1))))
           `(font-lock-function-name ((t (:foreground ,zenburn-yellow))))
@@ -357,6 +363,7 @@ static char *gnus-pointer[] = {
           '(custom-comment ((t (:inherit font-lock-doc))))
           '(custom-comment-tag ((t (:inherit font-lock-doc))))
           '(custom-documentation ((t (:inherit font-lock-doc))))
+          '(custom-face-tag ((t (:inherit zenburn-primary-2))))
           '(custom-link ((t (:inherit zenburn-yellow :underline t))))
           '(custom-tag ((t (:inherit zenburn-primary-2))))
           '(custom-group-tag ((t (:inherit zenburn-primary-1))))
@@ -405,6 +412,8 @@ static char *gnus-pointer[] = {
 
           ; elscreen
           ;;'(elscreen-tab-current-screen ((t (:inherit zenburn-primary-1))))
+          '(elscreen-tab-background ((t (:inherit zenburn-highlight-subtle))))
+          '(elscreen-tab-control ((t (:inherit default))))
           `(elscreen-tab-current-screen ((t (:foreground ,zenburn-blue+1 :background "#1e2320"))))
           ;;`(elscreen-tab-other-screen ((t ((:foreground ,zenburn-fg :background ,zenburn-green-1)))))
           `(elscreen-tab-other-screen ((t (:foreground ,zenburn-yellow :background ,zenburn-green))))
@@ -546,6 +555,9 @@ static char *gnus-pointer[] = {
           '(icompletep-nb-candidates ((t (:foreground "#AFD8AF")))) ; zenburn-green+3
           '(icompletep-keys ((t (:foreground "#CC9393")))) ; zenburn-red
 
+          ; identica
+          '(identica-uri ((t (:inherit default))))
+
           ; ido
           '(ido-first-match ((t (:inherit zenburn-primary-1))))
           '(ido-only-match ((t (:inherit zenburn-primary-2))))
@@ -656,16 +668,16 @@ static char *gnus-pointer[] = {
           '(minimap-active-region-background ((t (:foreground nil :background "#233323"))))
 
           ; mtorus
-          '(mtorus-highlight ((t (:inherit zenburn-highlight-bluish))))
+          '(mtorus-highlight ((t (:inherit zenburn-highlight-subtle))))
           '(mtorus-notify-highlight ((t (:inherit zenburn-primary-1))))
 
           ; nav
           '(nav-face-heading ((t (:inherit zenburn-yellow))))
-          '(nav-face-button-num ((t (:inherit zenburn-cyan))))
+          `(nav-face-button-num ((t (:foreground ,zenburn-cyan))))
           '(nav-face-dir ((t (:inherit zenburn-green))))
           '(nav-face-hdir ((t (:inherit zenburn-red))))
-          '(nav-face-file ((t (:inherit zenburn-fg))))
-          '(nav-face-hfile ((t (:inherit zenburn-red-4))))
+          '(nav-face-file ((t (:inherit zenburn-foreground))))
+          `(nav-face-hfile ((t (:foreground ,zenburn-red-4))))
 
           ; nxml
           '(nxml-delimited-data ((t (:inherit font-lock-string))))
@@ -773,8 +785,8 @@ static char *gnus-pointer[] = {
           '(sh-heredoc ((t (:inherit font-lock-string))))
 
           ; smerge
-          `(smerge-mine ((t (:inherit font-lock-default-face))))
-          `(smerge-other ((t (:inherit font-lock-default-face))))
+          `(smerge-mine ((t (:inherit font-lock-default))))
+          `(smerge-other ((t (:inherit font-lock-default))))
           `(smerge-refined-change ((t (:background "#668b8b" :foreground ,zenburn-fg))))
 
           ; speedbar
@@ -856,7 +868,7 @@ static char *gnus-pointer[] = {
 
           '(wl-highlight-message-signature ((t (:inherit zenburn-yellow))))
 
-          '(wl-highlight-summary-answered ((t (:inherit zenburn-fg))))
+          '(wl-highlight-summary-answered ((t (:inherit zenburn-foreground))))
           '(wl-highlight-summary-new ((t (:foreground "#e89393"))))
 
           `(wl-highlight-summary-displaying ((t (:underline t :foreground ,zenburn-yellow-2))))
@@ -864,9 +876,9 @@ static char *gnus-pointer[] = {
           '(wl-highlight-thread-indent ((t (:foreground "#ecbcec"))))
           '(wl-highlight-summary-thread-top ((t (:foreground "#efdcbc"))))
 
-          '(wl-highlight-summary-normal ((t (:inherit zenburn-fg))))
+          '(wl-highlight-summary-normal ((t (:inherit zenburn-foreground))))
 
-          '(wl-highlight-folder-zero ((t (:inherit zenburn-fg))))
+          '(wl-highlight-folder-zero ((t (:inherit zenburn-foreground))))
           '(wl-highlight-folder-few ((t (:inherit zenburn-red+1))))
           '(wl-highlight-folder-many ((t (:inherit zenburn-red+1))))
           '(wl-highlight-folder-unread ((t (:foreground "#e89393"))))
