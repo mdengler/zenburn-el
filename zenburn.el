@@ -195,6 +195,9 @@ static char *gnus-pointer[] = {
 
           '(zenburn-title ((t (:inherit variable-pitch :weight bold))))
 
+          `(zenburn-citation ((t (:background ,zenburn-bg+1))))
+
+
           '(font-lock-builtin ((t (:inherit zenburn-blue))))
           '(font-lock-comment ((t (:inherit zenburn-green))))
           '(font-lock-comment-delimiter ((t (:inherit zenburn-lowlight-2))))
@@ -469,17 +472,17 @@ static char *gnus-pointer[] = {
 
           `(gnus-x-face ((t (:background ,zenburn-fg :foreground ,zenburn-bg))))
 
-          `(gnus-cite-1 ((t (:foreground ,zenburn-blue))))
-          `(gnus-cite-2 ((t (:foreground ,zenburn-blue-1))))
-          `(gnus-cite-3 ((t (:foreground ,zenburn-blue-2))))
-          `(gnus-cite-4 ((t (:foreground ,zenburn-green+2))))
-          `(gnus-cite-5 ((t (:foreground ,zenburn-green+1))))
-          `(gnus-cite-6 ((t (:foreground ,zenburn-green))))
-          `(gnus-cite-7 ((t (:foreground ,zenburn-red))))
-          `(gnus-cite-8 ((t (:foreground ,zenburn-red-1))))
-          `(gnus-cite-9 ((t (:foreground ,zenburn-red-2))))
-          `(gnus-cite-10 ((t (:foreground ,zenburn-yellow-1))))
-          `(gnus-cite-11 ((t (:foreground ,zenburn-yellow))))
+          `(gnus-cite-1 ((t (:foreground ,zenburn-blue :inherit zenburn-citation))))
+          `(gnus-cite-2 ((t (:foreground ,zenburn-blue-1 :inherit zenburn-citation))))
+          `(gnus-cite-3 ((t (:foreground ,zenburn-blue-2 :inherit zenburn-citation))))
+          `(gnus-cite-4 ((t (:foreground ,zenburn-green+2 :inherit zenburn-citation))))
+          `(gnus-cite-5 ((t (:foreground ,zenburn-green+1 :inherit zenburn-citation))))
+          `(gnus-cite-6 ((t (:foreground ,zenburn-green :inherit zenburn-citation))))
+          `(gnus-cite-7 ((t (:foreground ,zenburn-red :inherit zenburn-citation))))
+          `(gnus-cite-8 ((t (:foreground ,zenburn-red-1 :inherit zenburn-citation))))
+          `(gnus-cite-9 ((t (:foreground ,zenburn-red-2 :inherit zenburn-citation))))
+          `(gnus-cite-10 ((t (:foreground ,zenburn-yellow-1 :inherit zenburn-citation))))
+          `(gnus-cite-11 ((t (:foreground ,zenburn-yellow :inherit zenburn-citation))))
 
           `(gnus-group-news-1-empty ((t (:foreground ,zenburn-yellow))))
           `(gnus-group-news-2-empty ((t (:foreground ,zenburn-green+3))))
@@ -624,7 +627,7 @@ static char *gnus-pointer[] = {
           '(makefile-shell ((t (nil))))
 
           ; message
-          '(message-cited-text ((t (:inherit font-lock-comment))))
+          `(message-cited-text ((t (:inherit (zenburn-citation font-lock-comment)))))
           '(message-header-name ((t (:inherit zenburn-green+1))))
           '(message-header-other ((t (:inherit zenburn-green))))
           '(message-header-to ((t (:inherit zenburn-primary-1))))
