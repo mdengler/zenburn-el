@@ -311,7 +311,8 @@ static char *gnus-pointer[] = {
 
           `(button ((t (:foreground ,zenburn-yellow :underline t))))
 
-          `(cursor ((t (:background "#aaaaaa" :foreground nil))))
+          `(cursor ((t (:background "brown" :foreground ,zenburn-bg))))
+
           '(hover-highlight ((t (:underline t :foreground "#f8f893"))))
           '(menu ((t nil)))
           '(mouse ((t (:inherit zenburn-foreground))))
