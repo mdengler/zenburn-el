@@ -253,7 +253,7 @@ static char *gnus-pointer[] = {
           '(plain-widget-button-pressed ((t (:inverse-video t))))
           '(plain-widget-documentation ((t (:inherit font-lock-doc))))
           `(plain-widget-field ((t (:background ,zenburn-bg+2))))
-          '(plain-widget-inactive ((t (:strike-through t))))
+          '(plain-widget-inactive ((t (:inherit zenburn-term-dark-gray))))
           `(plain-widget-single-line-field ((t (:background ,zenburn-bg+2))))
 
           `(fancy-widget-button ((t (:background ,zenburn-bg+1 :box (:line-width 2 :style released-button)))))
@@ -262,7 +262,7 @@ static char *gnus-pointer[] = {
           `(fancy-widget-button-pressed-highlight ((t (:background ,zenburn-bg+1 :box (:line-width 2 :style pressed-button)))))
           '(fancy-widget-documentation ((t (:inherit font-lock-doc))))
           `(fancy-widget-field ((t (:background ,zenburn-bg+2))))
-          '(fancy-widget-inactive ((t (:strike-through t))))
+          '(fancy-widget-inactive ((t (:inherit zenburn-term-dark-gray))))
           `(fancy-widget-single-line-field ((t (:background ,zenburn-bg+2))))
 
           '(widget-button ((t (:inherit plain-widget-button))))
