@@ -670,10 +670,6 @@ static char *gnus-pointer[] = {
           ; minimap
           '(minimap-active-region-background ((t (:foreground nil :background "#233323"))))
 
-          ; mtorus
-          '(mtorus-highlight ((t (:inherit zenburn-highlight-subtle))))
-          '(mtorus-notify-highlight ((t (:inherit zenburn-primary-1))))
-
           ; nav
           '(nav-face-heading ((t (:inherit zenburn-yellow))))
           `(nav-face-button-num ((t (:foreground ,zenburn-cyan))))
