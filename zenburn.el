@@ -25,6 +25,10 @@
 
 (require 'color-theme)
 
+(require 'cus-edit)            ;; for custom-face-tag-face et. al
+(require 'org-faces)           ;; for org faces in alias clause
+
+
 (defvar zenburn-fg        "#dcdccc")
 
 (defvar zenburn-bg-1      "#2b2b2b")
@@ -104,10 +108,12 @@ static char *gnus-pointer[] = {
             (error "Invalid face alias: %s" alias-name)
           (let ((target-name (replace-regexp-in-string
                               ".*\\(-face\\)" ""
-                              alias-name nil nil 1)))
-            (push `(,(intern alias-name)
-                    ((t (:inherit ,(intern target-name)))))
-                  clauses)))))))
+                              alias-name nil nil 1))
+                (alias (intern alias-name)))
+            (unless (get alias 'face-alias)
+              (push `(,(intern alias-name)
+                      ((t (:inherit ,(intern target-name)))))
+                    clauses))))))))
 
 ;;;###autoload
 (defun color-theme-zenburn ()
