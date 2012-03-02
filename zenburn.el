@@ -1091,8 +1091,6 @@ static char *gnus-pointer[] = {
        message-header-xheader-face
        message-mml-face
        message-separator-face
-       mtorus-highlight-face
-       mtorus-notify-highlight-face
        nxml-attribute-colon-face
        nxml-attribute-local-name-face
        nxml-attribute-prefix-face
